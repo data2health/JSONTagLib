@@ -2,7 +2,7 @@
 A JSP tag library supporting access to various JSON constructs as tags. This is currently targeted at the V4 GitHub API.
 ## Example V4 GraphQL request
 ```
-    static String members = "organization(login:data2health) {"
+    static String data2health_org = "organization(login:data2health) {"
     	+ "	id,"
     	+ "	login,"
     	+ "	repositories(first:100, orderBy:{field:NAME, direction: ASC}) {"
