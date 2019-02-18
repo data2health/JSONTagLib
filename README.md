@@ -33,6 +33,44 @@ A JSP tag library supporting access to various JSON constructs as tags. This is 
     	+ "	}"
     	+ "}";
 ```
+## Two fragments of the returned JSON
+This first bit is the start of the returned object
+```
+{"data": {"organization": {
+   "repositories": {"nodes": [
+      {
+         "repositoryTopics": {"nodes": [
+            {"topic": {"name": "data2health"}},
+            {"topic": {"name": "pea"}}
+         ]},
+         "name": "AcknowledgementsTagLib",
+         "description": "JSP Tag library providing access to entities and relationships extracted from PubMed Central publications",
+         "milestones": {"nodes": []},
+         "url": "https://github.com/data2health/AcknowledgementsTagLib"
+      },
+      {
+         "repositoryTopics": {"nodes": [
+            {"topic": {"name": "data2health"}},
+            {"topic": {"name": "pea"}}
+         ]},
+         "name": "CD2H-driveTagLib",
+         "description": null,
+         "milestones": {"nodes": []},
+         "url": "https://github.com/data2health/CD2H-driveTagLib"
+      },
+```
+This second bit is the start of the members section
+```
+   "members": {"nodes": [
+      {
+         "avatarUrl": "https://avatars2.githubusercontent.com/u/10997947?v=4",
+         "name": "Dave Eichmann",
+         "bio": "Director, U. of Iowa School of Library and Information Science",
+         "id": "MDQ6VXNlcjEwOTk3OTQ3",
+         "login": "eichmann",
+         "email": "david-eichmann@uiowa.edu"
+      },
+```
 ## Example JSP rendering of the returned JSON
 ```
             <h1>CD2H GitHub Organization</h1>
