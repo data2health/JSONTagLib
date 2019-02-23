@@ -58,11 +58,6 @@
     <version>1.1.1</version>
 </dependency>	
   <dependency>
-  	<groupId>CD2H-drive</groupId>
-  	<artifactId>CD2H-drive</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
-  </dependency>
-  <dependency>
     <groupId>org.json</groupId>
     <artifactId>json</artifactId>
     <version>20140107</version>

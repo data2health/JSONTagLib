@@ -8,17 +8,13 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.log4j.Logger;
-import org.cd2h.drive.util.GitHubAPI;
-import org.cd2h.drive.util.GitHubPush;
+import org.cd2h.JSONTagLib.GraphQL.GitHubAPI;
+import org.cd2h.JSONTagLib.GraphQL.GraphQLAPI;
 import org.json.JSONObject;
-
-import edu.uiowa.extraction.LocalProperties;
-import edu.uiowa.extraction.PropertyLoader;
 
 @SuppressWarnings("serial")
 public class ObjectTag extends BodyTagSupport {
     static Logger logger = Logger.getLogger(ObjectTag.class);
-    static LocalProperties github_props = null;
     
     String queryName = null;
     String targetName = null;
@@ -63,16 +59,14 @@ public class ObjectTag extends BodyTagSupport {
 	if (theAPITag != null) {
 	    switch (theAPITag.getAPI()) {
 	    case "GitHub":
-		if (github_props == null)
-		    github_props = PropertyLoader.loadProperties("github");
-		GitHubAPI theAPI = new GitHubAPI(github_props);
+		GraphQLAPI theAPI = new GitHubAPI();
 		try {
-		    switch (GitHubPush.getQueryType(queryName)) {
+		    switch (theAPI.getStatementType(queryName)) {
 		    case "search":
-			object = theAPI.submitSearch(GitHubPush.getQuery(queryName)).getJSONObject("data");
+			object = theAPI.submitSearch(theAPI.getStatement(queryName)).getJSONObject("data");
 			break;
 		    default:
-			object = theAPI.submitQuery(GitHubPush.getQuery(queryName)).getJSONObject("data");
+			object = theAPI.submitQuery(theAPI.getStatement(queryName)).getJSONObject("data");
 			break;
 		    }
 		    if (targetName != null)
