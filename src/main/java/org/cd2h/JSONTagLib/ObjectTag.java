@@ -8,6 +8,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.log4j.Logger;
+import org.cd2h.JSONTagLib.GraphQL.CD2H_API;
 import org.cd2h.JSONTagLib.GraphQL.GitHubAPI;
 import org.cd2h.JSONTagLib.GraphQL.GraphQLAPI;
 import org.json.JSONObject;
@@ -18,6 +19,8 @@ public class ObjectTag extends BodyTagSupport {
     
     String queryName = null;
     String targetName = null;
+    String parameter = null;
+    GraphQLAPI theAPI = null;
     JSONObject object = null;
 
     public ObjectTag() {
@@ -57,27 +60,31 @@ public class ObjectTag extends BodyTagSupport {
 	    throw new JspTagException("No API, array or object for object specified");
 
 	if (theAPITag != null) {
+	    theAPI = null;
 	    switch (theAPITag.getAPI()) {
 	    case "GitHub":
-		GraphQLAPI theAPI = new GitHubAPI();
-		try {
-		    switch (theAPI.getStatementType(queryName)) {
-		    case "search":
-			object = theAPI.submitSearch(theAPI.getStatement(queryName)).getJSONObject("data");
-			break;
-		    default:
-			object = theAPI.submitQuery(theAPI.getStatement(queryName)).getJSONObject("data");
-			break;
-		    }
-		    if (targetName != null)
-			object = object.getJSONObject(targetName);
-		    logger.debug("object:\n" + object.toString(3));
-		} catch (IOException e) {
-		    throw new JspException(e);
-		}
+		theAPI = new GitHubAPI();
+		break;
+	    case "CD2H":
+		theAPI = new CD2H_API();
 		break;
 	    default:
 		throw new JspException("unknown API requested: " + theAPITag.getAPI());
+	    }
+	    try {
+		switch (theAPI.getStatementType(queryName)) {
+		case "search":
+		    object = theAPI.submitSearch(getStatement(queryName)).getJSONObject("data");
+		    break;
+		default:
+		    object = theAPI.submitQuery(getStatement(queryName)).getJSONObject("data");
+		    break;
+		}
+		if (targetName != null)
+		    object = object.getJSONObject(targetName);
+		logger.debug("object:\n" + object.toString(3));
+	    } catch (IOException e) {
+		throw new JspException(e);
 	    }
 	} else if (theArrayParent != null) {
 	    object = theArrayParent.currentObject;
@@ -92,6 +99,16 @@ public class ObjectTag extends BodyTagSupport {
 
     public void release() {
 	init();
+    }
+    
+    String getStatement(String queryName) {
+	if (parameter == null)
+	    return theAPI.getStatement(queryName);
+	else {
+	    String[] array = parameter.split(":");
+	    return theAPI.getStatement(queryName).replace("$"+array[0], array[1]);
+//	    return theAPI.getStatement(queryName) + " variables { \"proj\": " + parameter + "}";
+	}
     }
 
     public String getQueryName() {
@@ -108,6 +125,14 @@ public class ObjectTag extends BodyTagSupport {
 
     public void setTargetName(String targetName) {
         this.targetName = targetName;
+    }
+
+    public String getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
     }
 
 }

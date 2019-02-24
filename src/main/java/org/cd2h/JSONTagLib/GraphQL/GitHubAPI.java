@@ -111,7 +111,7 @@ public class GitHubAPI extends GraphQLAPI{
     				+ "}";
 
     public GitHubAPI() {
-	super();
+	super("GitHub");
 	props = PropertyLoader.loadProperties("github");
 	
 	registerStatement("me", me);

@@ -30,6 +30,11 @@
             <rtexprvalue>false</rtexprvalue>
         </attribute>
         <attribute>
+            <name>parameter</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>targetName</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>

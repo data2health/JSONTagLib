@@ -18,10 +18,12 @@ public class GraphQLAPI {
     static Logger logger = Logger.getLogger(GraphQLAPI.class);
     
     LocalProperties props = null;
+    String targetServer = null;
     Hashtable<String, String> statementHash = new Hashtable<String, String>();
     Hashtable<String, String> typeHash = new Hashtable<String, String>();
     
-    public GraphQLAPI() {
+    public GraphQLAPI(String targetServer) {
+	this.targetServer = targetServer;
     }
     
     public void registerStatement(String name, String statement) {
@@ -54,7 +56,12 @@ public class GraphQLAPI {
 	if (query.matches(" *search.*") || query.matches(" *update.*"))
 	    throw new IOException("query request doesn't start with valid object");
 	// normalize query string to remove tabs, as GraphQL doesn't like them...
-	return submit(("{ \"query\": \"query {" + query + "}\" } ").replaceAll("[\t ]+", " "));
+	switch (targetServer) {
+	case "CD2H":
+	    return submit(query.replaceAll("[\t ]+", " "));
+	default:
+	    return submit(("{ \"query\": \"query {" + quotify(query) + "}\" } ").replaceAll("[\t ]+", " "));
+	}
     }
 
     public JSONObject submitMutation(String mutation) throws IOException {
@@ -66,12 +73,15 @@ public class GraphQLAPI {
 
     private JSONObject submit(String request) throws IOException {
 	// configure the connection
+	logger.info("url: " + props.getProperty("url"));
 	URL uri = new URL(props.getProperty("url"));
 	HttpURLConnection con = (HttpURLConnection) uri.openConnection();
 	con.setRequestMethod("POST"); // type: POST, PUT, DELETE, GET
 	if (props.getProperty("token") != null)
 	    con.setRequestProperty("Authorization", "token " + props.getProperty("token"));
 	con.setRequestProperty("Accept","application/json");
+	if (targetServer.equals("CD2H"))
+	    con.setRequestProperty("Content-Type", "application/graphql");
 	con.setDoOutput(true);
 	con.setDoInput(true);
 	

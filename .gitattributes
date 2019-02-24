@@ -10,6 +10,7 @@
 /pom.xml -text svneol=unset#application/xml
 src/main/java/org/cd2h/JSONTagLib/ArrayTag.java -text
 src/main/java/org/cd2h/JSONTagLib/DataTag.java -text
+src/main/java/org/cd2h/JSONTagLib/GraphQL/CD2H_API.java -text
 src/main/java/org/cd2h/JSONTagLib/GraphQL/GitHubAPI.java -text
 src/main/java/org/cd2h/JSONTagLib/GraphQL/GraphQLAPI.java -text
 src/main/java/org/cd2h/JSONTagLib/ObjectTag.java -text
