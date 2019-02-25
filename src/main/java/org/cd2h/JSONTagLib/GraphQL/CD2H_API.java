@@ -41,6 +41,7 @@ public class CD2H_API extends GraphQLAPI{
     	+ "      rolesById (condition:{role:\"Lead\"}) {"
     	+ "        nodes {"
     	+ "          personByEmailAddress {"
+    	+ "	       emailAddress"
     	+ "            lastName"
     	+ "            preferredFirstName"
     	+ "          }"
