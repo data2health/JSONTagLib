@@ -109,7 +109,29 @@ public class GitHubAPI extends GraphQLAPI{
     				+ "		}"
     				+ "	}"
     				+ "}";
-
+    static String projectDashboard = "organization(login: data2health) {"
+    				+ "    repositories(first: 100, orderBy:{field:UPDATED_AT,direction:DESC}) {"
+    				+ "      nodes {"
+    				+ "        name"
+    				+ "        description"
+    				+ "        url"
+    				+ "        milestones(first: 100) {"
+    				+ "          totalCount"
+    				+ "          nodes {"
+    				+ "            dueOn"
+    				+ "            closed"
+    				+ "          }"
+    				+ "        }"
+    				+ "        issues(first: 100) {"
+    				+ "          totalCount"
+    				+ "          nodes {"
+    				+ "            closed"
+    				+ "          }"
+    				+ "        }"
+    				+ "      }"
+    				+ "    }"
+    				+ "  }";
+    
     public GitHubAPI() {
 	super("GitHub");
 	props = PropertyLoader.loadProperties("github");
@@ -120,6 +142,7 @@ public class GitHubAPI extends GraphQLAPI{
 	registerStatement("repo_mutate", repo_mutate);
 	registerStatement("data2health_org", data2health_org);
 	registerStatement("data2health_tagged_repos", repoByTopic);
+	registerStatement("projectDashboard", projectDashboard);
     }
 
 }
