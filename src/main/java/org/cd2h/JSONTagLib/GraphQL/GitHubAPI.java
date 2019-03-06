@@ -110,11 +110,12 @@ public class GitHubAPI extends GraphQLAPI{
     				+ "	}"
     				+ "}";
     static String projectDashboard = "organization(login: data2health) {"
-    				+ "    repositories(first: 100, orderBy:{field:UPDATED_AT,direction:DESC}) {"
+    				+ "    repositories(first: 100, orderBy:{field:PUSHED_AT,direction:DESC}) {"
     				+ "      nodes {"
     				+ "        name"
     				+ "        description"
     				+ "        url"
+    				+ "        pushedAt"
     				+ "        milestones(first: 100) {"
     				+ "          totalCount"
     				+ "          nodes {"
