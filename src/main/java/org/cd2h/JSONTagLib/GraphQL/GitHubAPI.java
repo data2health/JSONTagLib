@@ -176,6 +176,23 @@ public class GitHubAPI extends GraphQLAPI{
     		+"	    }"
     		+"	}";
     
+    /*
+     *
+{
+  search(query: "topic:cd2hpm", type: REPOSITORY, first: 100) {
+    repositoryCount
+    nodes {
+      ... on Repository {
+        name
+        description
+        url
+        updatedAt
+      }
+    }
+  }
+}
+
+     */
     
     public GitHubAPI() {
 	super("GitHub");
