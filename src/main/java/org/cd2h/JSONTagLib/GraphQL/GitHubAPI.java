@@ -13,6 +13,7 @@ public class GitHubAPI extends GraphQLAPI{
 	    	+ "			name,"
 	    	+ "			url,"
 	    	+ "			id,"
+	    	+ "			updatedAt,"
 	    	+ "			milestones(first:100) {"
 	    	+ "				nodes {"
 	    	+ "					id,"
@@ -133,6 +134,49 @@ public class GitHubAPI extends GraphQLAPI{
     				+ "    }"
     				+ "  }";
     
+    static String projectDashboardsingle = "search(query: \"topic:cd2hpm\", type: REPOSITORY, first: 100) {"
+    		+"		repositoryCount"
+    		+"	    edges {"
+    		+"	      node {"
+    		+"	        ... on Repository{"
+    		+"	          name"
+    		+"	          description"
+    		+"	          url"
+    		+"			  updatedAt"
+    		+" 			  milestones(first:100){"
+    		+"				totalCount"
+        	+"				edges {"
+          	+"					mil: node {"
+            +"						title"
+            +"						description"
+            +"    					dueOn"
+          	+"					}"
+       		+" 				}"
+        	+" 			  }" 
+    		+"	          open_milestones: milestones(states: OPEN) {"
+    		+"	            totalCount"
+    		+"	          }"
+    		+"	          closed_milestones: milestones(states: CLOSED) {"
+    		+"	            totalCount"
+    		+"	          }"
+    		+"	          total_milestones: milestones{"
+    		+"	            totalCount"
+    		+"	          }"
+    		+"	          open_issues : issues(states: OPEN) {"
+    		+"	            totalCount"
+    		+"	          }"
+    		+"	          closed_issues : issues(states: CLOSED) {"
+    		+"	            totalCount"
+    		+"	          }"
+    		+"	          total_issues : issues{"
+    		+"	            totalCount"
+    		+"	          }"
+    		+"	        }"
+    		+"	      }"
+    		+"	    }"
+    		+"	}";
+    
+    
     public GitHubAPI() {
 	super("GitHub");
 	props = PropertyLoader.loadProperties("github");
@@ -144,6 +188,7 @@ public class GitHubAPI extends GraphQLAPI{
 	registerStatement("data2health_org", data2health_org);
 	registerStatement("data2health_tagged_repos", repoByTopic);
 	registerStatement("projectDashboard", projectDashboard);
+	registerStatement("projectDashboardsingle", projectDashboardsingle);
     }
 
 }
