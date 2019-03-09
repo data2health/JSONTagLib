@@ -176,23 +176,17 @@ public class GitHubAPI extends GraphQLAPI{
     		+"	    }"
     		+"	}";
     
-    /*
-     *
-{
-  search(query: "topic:cd2hpm", type: REPOSITORY, first: 100) {
-    repositoryCount
-    nodes {
-      ... on Repository {
-        name
-        description
-        url
-        updatedAt
-      }
-    }
-  }
-}
-
-     */
+    static String roadmapList = "search(query: \"topic:cd2hpm\", type: REPOSITORY, first: 100) {"
+    				+ "    repositoryCount"
+    				+ "    nodes {"
+    				+ "      ... on Repository {"
+    				+ "        name"
+    				+ "        description"
+    				+ "        url"
+    				+ "        updatedAt"
+    				+ "      }"
+    				+ "    }"
+    				+ "  }";
     
     public GitHubAPI() {
 	super("GitHub");
@@ -206,6 +200,7 @@ public class GitHubAPI extends GraphQLAPI{
 	registerStatement("data2health_tagged_repos", repoByTopic);
 	registerStatement("projectDashboard", projectDashboard);
 	registerStatement("projectDashboardsingle", projectDashboardsingle);
+	registerStatement("roadmapList", roadmapList);
     }
 
 }
