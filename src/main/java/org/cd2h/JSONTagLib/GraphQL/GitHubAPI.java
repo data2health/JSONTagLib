@@ -88,6 +88,13 @@ public class GitHubAPI extends GraphQLAPI{
     	+ "		}"
     	+ "	}"
     	+ "}";
+    static String memberList = "organization(login:data2health) {"
+	    	+ "	members(first:100) {"
+	    	+ "		nodes {"
+	    	+ "			id,name,bio,email,login,avatarUrl"
+	    	+ "		}"
+	    	+ "	}"
+	    	+ "}";
     static String repoByTopic = "search(query: \"topic:data2health\", type: REPOSITORY, first:100) {"
     				+ "	repositoryCount"
     				+ "	edges {"
@@ -201,6 +208,7 @@ public class GitHubAPI extends GraphQLAPI{
 	registerStatement("projectDashboard", projectDashboard);
 	registerStatement("projectDashboardsingle", projectDashboardsingle);
 	registerStatement("roadmapList", roadmapList);
+	registerStatement("memberList", memberList);
     }
 
 }
