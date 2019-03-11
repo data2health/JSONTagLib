@@ -45,6 +45,44 @@ public class GitHubAPI extends GraphQLAPI{
     	+ "				}"
     	+ "			}"
     	+ "}";
+    static String repoDetail = "repository(owner: data2health, name: \"$repo\") {"
+    	+ "    name"
+    	+ "    description"
+    	+ "    url"
+    	+ "    pushedAt"
+    	+ "    milestones(first: 100, states:OPEN, orderBy:{field:DUE_DATE,direction:ASC}) {"
+    	+ "      totalCount"
+    	+ "      nodes {"
+    	+ "        id"
+    	+ "        title"
+    	+ "        description"
+    	+ "        dueOn"
+    	+ "        closed"
+    	+ "        creator{login}"
+    	+ "        state"
+    	+ "      }"
+    	+ "    }"
+    	+ "    issues(first: 100, states:OPEN, orderBy:{field:CREATED_AT,direction:ASC}) {"
+    	+ "      totalCount"
+    	+ "      nodes {"
+    	+ "        number"
+    	+ "        title"
+    	+ "        body"
+    	+ "        state"
+    	+ "        author{login}"
+    	+ "        milestone {"
+    	+ "          title"
+    	+ "        }"
+    	+ "        assignees(first:100) {"
+    	+ "           nodes {"
+    	+ "              name"
+    	+ "              login"
+    	+ "              avatarUrl"
+    	+ "           }"
+    	+ "        }"
+    	+ "      }"
+    	+ "    }"
+    	+ "  }";
     static String repo_mutate = " updateTopics ("
     				+ "	input: {"
     				+ "		repositoryId: \"MDEwOlJlcG9zaXRvcnkxMzQzMTU4NDk=\","
@@ -202,6 +240,7 @@ public class GitHubAPI extends GraphQLAPI{
 	registerStatement("me", me);
 	registerStatement("repo_list", repo_list);
 	registerStatement("repo", repo);
+	registerStatement("repoDetail", repoDetail);
 	registerStatement("repo_mutate", repo_mutate);
 	registerStatement("data2health_org", data2health_org);
 	registerStatement("data2health_tagged_repos", repoByTopic);
