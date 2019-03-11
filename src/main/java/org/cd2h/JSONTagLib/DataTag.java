@@ -22,7 +22,10 @@ public class DataTag extends BodyTagSupport {
 	}
 
 	try {
-	    pageContext.getOut().print(theObject.object.get(label).toString());
+	    if (theObject == null || theObject.object == null)
+		pageContext.getOut().print("");
+	    else
+		pageContext.getOut().print(theObject.object.get(label).toString());
 	} catch (IOException e) {
 	    logger.error("IO Exception", e);
 

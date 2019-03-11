@@ -92,7 +92,7 @@ public class ObjectTag extends BodyTagSupport {
 		object = object.getJSONObject(targetName);
 	    logger.debug("object:\n" + object.toString(3));
 	} else {
-	    object = theObjectParent.object.getJSONObject(targetName);
+	    object = theObjectParent.object.optJSONObject(targetName);
 	}
 	return EVAL_BODY_INCLUDE;
     }
