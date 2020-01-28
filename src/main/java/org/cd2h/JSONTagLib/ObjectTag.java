@@ -7,7 +7,8 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cd2h.JSONTagLib.GraphQL.CD2H_API;
 import org.cd2h.JSONTagLib.GraphQL.GitHubAPI;
 import org.cd2h.JSONTagLib.GraphQL.GraphQLAPI;
@@ -15,7 +16,9 @@ import org.json.JSONObject;
 
 @SuppressWarnings("serial")
 public class ObjectTag extends BodyTagSupport {
-    static Logger logger = Logger.getLogger(ObjectTag.class);
+
+	private static final Logger logger = LogManager.getLogger("ObjectTag");
+    // static Logger logger = Logger.getLogger(ObjectTag.class);
     
     String queryName = null;
     String targetName = null;

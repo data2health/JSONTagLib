@@ -15,14 +15,18 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.cd2h.JSONTagLib.util.LocalProperties;
 import org.cd2h.JSONTagLib.util.PropertyLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class GraphQLAPI {
-    static Logger logger = Logger.getLogger(GraphQLAPI.class);
+
+	private static final Logger logger = LogManager.getLogger( "GraphQLAPI" );
+    // static Logger logger = Logger.getLogger(GraphQLAPI.class);
 
     protected static Connection conn = null;
     

@@ -6,11 +6,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class DataTag extends BodyTagSupport {
-    static Logger logger = Logger.getLogger(DataTag.class);
+
+	private static final Logger logger = LogManager.getLogger("DataTag");
+    // static Logger logger = Logger.getLogger(DataTag.class);
     
     String label = null;
 

@@ -10,14 +10,18 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @SuppressWarnings("serial")
 public class ArrayTag extends BodyTagSupport {
-    static Logger logger = Logger.getLogger(ArrayTag.class);
+
+	private static final Logger logger = LogManager.getLogger( "ArrayTag" );
+    // static Logger logger = Logger.getLogger(ArrayTag.class);
+
     static Vector<ArrayTag> stack = new Vector<ArrayTag>();
     //TODO need to shift the stack from a static to a session variable
     
