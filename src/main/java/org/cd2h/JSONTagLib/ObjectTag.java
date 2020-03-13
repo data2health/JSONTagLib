@@ -1,22 +1,28 @@
 package org.cd2h.JSONTagLib;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cd2h.JSONTagLib.GraphQL.CD2H_API;
 import org.cd2h.JSONTagLib.GraphQL.GitHubAPI;
 import org.cd2h.JSONTagLib.GraphQL.GraphQLAPI;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 @SuppressWarnings("serial")
 public class ObjectTag extends BodyTagSupport {
-    static Logger logger = Logger.getLogger(ObjectTag.class);
+    static Logger logger = LogManager.getLogger(ObjectTag.class);
     
+    String sourceURL = null;
     String queryName = null;
     String targetName = null;
     String parameter = null;
@@ -29,6 +35,7 @@ public class ObjectTag extends BodyTagSupport {
     }
 
     private void init() {
+	sourceURL = null;
 	queryName = null;
 	targetName = null;
 	object = null;
@@ -49,17 +56,22 @@ public class ObjectTag extends BodyTagSupport {
 	ArrayTag theArrayParent = null;
 	ObjectTag theObjectParent = null;
 	
-	if (getJSONParent() instanceof SetAPITag)
+	if (sourceURL == null && getJSONParent() instanceof SetAPITag)
 	    theAPITag = (SetAPITag) findAncestorWithClass(this, SetAPITag.class);
-	if (getJSONParent() instanceof ArrayTag)
+	if (sourceURL == null && getJSONParent() instanceof ArrayTag)
 	    theArrayParent = (ArrayTag) findAncestorWithClass(this, ArrayTag.class);
-	if (getJSONParent() instanceof ObjectTag)
+	if (sourceURL == null && getJSONParent() instanceof ObjectTag)
 	    theObjectParent = (ObjectTag) findAncestorWithClass(this, ObjectTag.class);
 
-	if (theAPITag == null && theArrayParent == null && theObjectParent == null)
+	if (sourceURL == null && theAPITag == null && theArrayParent == null && theObjectParent == null)
 	    throw new JspTagException("No API, array or object for object specified");
 
-	if (theAPITag != null) {
+	if (sourceURL != null) {
+	    object = getObjectFromURL(sourceURL);
+	    if (targetName != null)
+		object = object.getJSONObject(targetName);
+	    logger.debug("object:\n" + object.toString(3));
+	} else if (theAPITag != null) {
 	    theAPI = null;
 	    switch (theAPITag.getAPI()) {
 	    case "GitHub":
@@ -101,6 +113,20 @@ public class ObjectTag extends BodyTagSupport {
 	init();
     }
     
+    JSONObject getObjectFromURL(String theURL) {
+	logger.debug("requesting JSON construct from:" + theURL);
+	JSONObject results = null;
+	try {
+	    BufferedReader in = new BufferedReader(new InputStreamReader((new URL(theURL)).openConnection().getInputStream()));
+	    results = new JSONObject(new JSONTokener(in));
+	    logger.debug("results:\n" + results.toString(3));
+	    in.close();
+	} catch (Exception e) {
+	    logger.error("Exception raised accessing JSON URL: ", e);
+	}	
+	return results;
+    }
+    
     String getStatement(String queryName) {
 	if (parameter == null)
 	    return theAPI.getStatement(queryName);
@@ -109,6 +135,14 @@ public class ObjectTag extends BodyTagSupport {
 	    return theAPI.getStatement(queryName).replace("$"+array[0], array[1]);
 //	    return theAPI.getStatement(queryName) + " variables { \"proj\": " + parameter + "}";
 	}
+    }
+
+    public String getSourceURL() {
+        return sourceURL;
+    }
+
+    public void setSourceURL(String sourceURL) {
+        this.sourceURL = sourceURL;
     }
 
     public String getQueryName() {
