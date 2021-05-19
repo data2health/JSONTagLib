@@ -11,39 +11,39 @@ import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class DataTag extends BodyTagSupport {
-    static Logger logger = LogManager.getLogger(DataTag.class);
-    
-    String label = null;
+	static Logger logger = LogManager.getLogger(DataTag.class);
 
-    public int doStartTag() throws JspTagException {
-	ObjectTag theObject = (ObjectTag) findAncestorWithClass(this, ObjectTag.class);
+	String label = null;
 
-	if (theObject == null) {
-	    throw new JspTagException("Data tag not nesting in Data instance");
+	public int doStartTag() throws JspTagException {
+		ObjectTag theObject = (ObjectTag) findAncestorWithClass(this, ObjectTag.class);
+
+		if (theObject == null) {
+			throw new JspTagException("Data tag not nesting in Data instance");
+		}
+
+		try {
+			if (theObject == null || theObject.object == null)
+				pageContext.getOut().print("");
+			else
+				pageContext.getOut().print(theObject.object.get(label).toString());
+		} catch (IOException e) {
+			logger.error("IO Exception", e);
+
+		}
+
+		return SKIP_BODY;
 	}
 
-	try {
-	    if (theObject == null || theObject.object == null)
-		pageContext.getOut().print("");
-	    else
-		pageContext.getOut().print(theObject.object.get(label).toString());
-	} catch (IOException e) {
-	    logger.error("IO Exception", e);
-
+	public int doEndTag() throws JspException {
+		return super.doEndTag();
 	}
 
-	return SKIP_BODY;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public int doEndTag() throws JspException {
-	return super.doEndTag();
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }

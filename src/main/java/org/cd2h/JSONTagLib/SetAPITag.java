@@ -8,34 +8,34 @@ import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class SetAPITag extends BodyTagSupport {
-    static Logger logger = LogManager.getLogger(SetAPITag.class);
+	static Logger logger = LogManager.getLogger(SetAPITag.class);
 
-    String API = null;
-    
-    public SetAPITag() {
-	super();
-	init();
-    }
+	String API = null;
 
-    private void init() {
-	API = null;
-    }
+	public SetAPITag() {
+		super();
+		init();
+	}
 
-    public int doStartTag() throws JspException {
-	logger.info("setting API to " + API);
-	return EVAL_BODY_INCLUDE;
-    }
+	private void init() {
+		API = null;
+	}
 
-    public void release() {
-	init();
-    }
+	public int doStartTag() throws JspException {
+		logger.info("setting API to " + API);
+		return EVAL_BODY_INCLUDE;
+	}
 
-    public String getAPI() {
-        return API;
-    }
+	public void release() {
+		init();
+	}
 
-    public void setAPI(String aPI) {
-        API = aPI;
-    }
+	public String getAPI() {
+		return API;
+	}
+
+	public void setAPI(String aPI) {
+		API = aPI;
+	}
 
 }
