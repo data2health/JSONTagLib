@@ -15,6 +15,7 @@ src/main/java/org/cd2h/JSONTagLib/GraphQL/GitHubAPI.java -text
 src/main/java/org/cd2h/JSONTagLib/GraphQL/GraphQLAPI.java -text
 src/main/java/org/cd2h/JSONTagLib/ObjectTag.java -text
 src/main/java/org/cd2h/JSONTagLib/SetAPITag.java -text
+src/main/java/org/cd2h/JSONTagLib/util/Loader.java -text
 src/main/java/org/cd2h/JSONTagLib/util/LocalProperties.java -text
 src/main/java/org/cd2h/JSONTagLib/util/PropertyLoader.java -text
 src/main/resources/META-INF/taglib.tld -text svneol=unset#application/xml
