@@ -10,9 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -20,10 +19,9 @@ import org.json.JSONTokener;
 public class Loader {
 	static Connection theConnection = null;
 	static LocalProperties prop_file = null;
-	protected static final Log logger = LogFactory.getLog(Loader.class);
+	static Logger logger = LogManager.getLogger(Loader.class);
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-		PropertyConfigurator.configure(args[0]);
 		prop_file = PropertyLoader.loadProperties(args[1]);
 		theConnection = getConnection();
 		logger.info("");
